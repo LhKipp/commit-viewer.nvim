@@ -18,9 +18,27 @@ M.commit_desc = function(max_len, line)
     return string.sub(desc, 0, max_len)
 end
 
+M.kb_exe = function(cmd, args)
+    return function()
+        log.debug("kb_exe", cmd, vim.inspect(args))
+
+        local mapped_args = {}
+        for _, arg in ipairs(args) do
+            arg = string.gsub(arg, "<sha>", M.sha())
+            table.insert(mapped_args, arg)
+        end
+        local result = require 'commit-viewer.util'.run_cmd(cmd, mapped_args)
+        if result == nil then
+            return
+        end
+        print(table.concat(result, "\n"))
+        require 'commit-viewer'.redraw()
+    end
+end
+
 M.kb_feedkeys = function(format_string)
     return function()
-        log.info("kb_feekdeys ", format_string)
+        log.debug("kb_feekdeys ", format_string)
 
         local cmd = string.gsub(format_string, [[<sha>]], M.sha())
         local _, endi = string.find(cmd, [[<cursor>]])

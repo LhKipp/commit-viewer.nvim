@@ -4,7 +4,6 @@ local v = vim
 local log = require 'commit-viewer.log'
 
 function M._run_git_log(additional_args)
-    log.info("Calling _run_git_log")
     local util = require('commit-viewer.util')
 
     -- Collect args
@@ -21,7 +20,7 @@ function M._get_buffer()
         for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
             if string.find(vim.api.nvim_buf_get_name(bufnr), bufname) ~= nil then
                 buf = bufnr
-                log.info("Found existing buffer. Reusing it")
+                log.debug("Found existing buffer. Reusing it")
                 break
             end
         end
@@ -35,7 +34,7 @@ function M._get_buffer()
         if M._config.reuse_buffer then -- name has to be unique, so only set the name, when reusing the buffer
             vim.api.nvim_buf_set_name(buf, "Git Log")
         end
-        log.info("Created new buffer")
+        log.debug("Created new buffer")
     end
 
     -- In case the buffer was only unlisted, reset the ft
@@ -60,7 +59,7 @@ function M.open(args)
 end
 
 function M.redraw()
-    log.info("Redrawing with ", vim.inspect(M._last_executed_args))
+    log.debug("Redrawing with", vim.inspect(M._last_executed_args))
     M.open(M._last_executed_args)
 end
 

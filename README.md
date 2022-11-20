@@ -32,15 +32,13 @@ vim.keymap.set({ 'n', 'v' },
     kbs.kb_open_commit({ window_layout = "horizontal", window_resize = "+7" }),
     { buffer = true })
 vim.keymap.set({ 'n', 'v' },
-    'o',
-    kbs.kb_open_commit({ window_layout = "horizontal", window_resize = "+7" }),
-    { buffer = true })
-vim.keymap.set({ 'n', 'v' },
     'O',
     kbs.kb_open_commit({ new_tab = true }),
     { buffer = true })
 
+
 -- <sha> is replaced with the git-sha of the current line
+vim.keymap.set('n', 're', kbs.kb_exe("git", { "reset", "<sha>" }), { buffer = true })
 vim.keymap.set('n', 'rb', kbs.kb_feedkeys(":Git rebase -i <sha><CR>", true), { buffer = true })
 -- The cursor is placed where <cursor> is
 vim.keymap.set('n', '.', kbs.kb_feedkeys(":Git <cursor> <sha>"), { buffer = true })
