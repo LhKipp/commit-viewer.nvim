@@ -60,7 +60,7 @@ function M.open(args)
 end
 
 function M.redraw()
-    log.info("Redrawing with", vim.inspect(M._last_executed_args))
+    log.debug("Redrawing with", vim.inspect(M._last_executed_args))
     if M._last_executed_args == nil then
         return -- no previous invocation ==> no redraw
     end
