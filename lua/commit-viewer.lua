@@ -37,9 +37,6 @@ function M._get_buffer()
         log.debug("Created new buffer")
     end
 
-    -- In case the buffer was only unlisted, reset the ft
-    vim.api.nvim_buf_set_option(buf, 'filetype', 'CV')
-
     return buf
 end
 
@@ -56,6 +53,10 @@ function M.open(args)
     M._last_executed_args = args
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, log_lines)
     vim.api.nvim_win_set_buf(0, buf)
+
+    vim.api.nvim_buf_set_option(buf, 'readonly', true)
+    vim.api.nvim_buf_set_option(buf, 'buflisted', false)
+    vim.api.nvim_buf_set_option(buf, 'filetype', 'CV')
 end
 
 function M.redraw()
