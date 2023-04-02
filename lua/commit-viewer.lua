@@ -1,5 +1,5 @@
 local M = {}
-local v = vim
+local vim = vim
 
 local log = require 'commit-viewer.log'
 
@@ -28,7 +28,7 @@ function M._get_buffer()
     if buf == nil then
         buf = vim.api.nvim_create_buf(true, true)
         if buf == 0 then
-            v.api.nvim_err_writeln("Couldn't create a new buffer!")
+            vim.api.nvim_err_writeln("Couldn't create a new buffer!")
             return nil
         end
         if M._config.reuse_buffer then -- name has to be unique, so only set the name, when reusing the buffer
@@ -51,10 +51,11 @@ function M.open(args)
         return
     end
     M._last_executed_args = args
+    vim.api.nvim_buf_set_option(buf, 'modifiable', true)
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, log_lines)
     vim.api.nvim_win_set_buf(0, buf)
 
-    vim.api.nvim_buf_set_option(buf, 'readonly', true)
+    vim.api.nvim_buf_set_option(buf, 'modifiable', false)
     vim.api.nvim_buf_set_option(buf, 'buflisted', false)
     vim.api.nvim_buf_set_option(buf, 'filetype', 'CV')
 end
